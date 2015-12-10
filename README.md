@@ -1,9 +1,10 @@
 # nmpt
 
 This is a clone of the Nick's Machine Perception Toolbox (http://mplab.ucsd.edu/~nick/NMPT/) which 
-was only available via *.zip file and good old "GNU Make"
+was only available via *.zip file and good old "GNU Make".
+
 I borrowed the CMAKE file from: https://github.com/ChristianFrisson (Thanks!) and slightly changed 
-the CMAKE CXXFlags to -fpermissive and added install targets
+the CMAKE CXXFlags to -fpermissive and added CMAKE install targets
 
 ## Dependencies Ubuntu
 
