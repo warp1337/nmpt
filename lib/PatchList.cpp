@@ -460,8 +460,9 @@ int PatchList::setImageAllScalesNeedsPointerReset(IplImage* newImage) {
 		
 		scaleSize = getEffectiveResampledImageSizeAtScale(i); 
 		
-		Mat resizeScratchPad = scaleCanvas(Rect(0, 0, scaleSize.width, scaleSize.height)); 
-		resize(newImage, resizeScratchPad, resizeScratchPad.size(), 0,0, INTER_NEAREST); 
+        Mat resizeScratchPad = scaleCanvas(Rect(0, 0, scaleSize.width, scaleSize.height));
+        Mat newImageMat = newImage;
+        cv::resize(newImageMat, resizeScratchPad, resizeScratchPad.size(), 0,0, INTER_NEAREST);
 		
 		if (_PATCHLIST_DEBUG) cout << "Resized image." << endl; 
 		if ((unsigned int) i < images.size()) {	

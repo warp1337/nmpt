@@ -13,7 +13,7 @@
 #include <sstream>
 #include <opencv2/imgproc/imgproc.hpp>
 //#include <zlib.h>
-using namespace std; 
+//using namespace std; // clashes with OpenCV here
 using namespace cv; 
 
 #define FIX(x) (x<0?ceil(x):floor(x))
@@ -39,32 +39,32 @@ void NMPTUtils::fix(CvMat* mat) {
 void NMPTUtils::printMat(const Mat &mat) {
 	Mat dmat; 
 	mat.convertTo(dmat, CV_64F); 
-	cout << "[" ; 
+    std::cout << "[" ;
 	for (int i = 0; i < dmat.rows; i++) {
-		for (int j = 0; j < dmat.cols; j++) {
-			cout << "  " << dmat.at<double>( i, j);  
+        for (int j = 0; j < dmat.cols; j++) {
+            std::cout << "  " << dmat.at<double>( i, j);
 		}
 		if (i < dmat.rows-1) {
-			cout << endl << "  "; 
+            std::cout << std::endl << "  ";
 		} else {
 		}
 	}
-	cout << "  ]" << endl; 
+    std::cout << "  ]" << std::endl;
 }
 
 void NMPTUtils::printMat(const CvMat &mat) {
 	
-	cout << "[" ; 
+    std::cout << "[" ;
 	for (int i = 0; i < mat.rows; i++) {
 		for (int j = 0; j < mat.cols; j++) {
-			cout << "  " << cvGetReal2D(&mat,i,j) ; 
+            std::cout << "  " << cvGetReal2D(&mat,i,j) ;
 		}
 		if (i < mat.rows-1) {
-			cout << endl << "  "; 
+            std::cout << std::endl << "  ";
 		} else {
 		}
 	}
-	cout << "  ]" << endl; 
+    std::cout << "  ]" << std::endl;
 }
 
 double NMPTUtils::randomNormal() {
@@ -76,7 +76,7 @@ double NMPTUtils::randomFloat() {
 }
 
 string NMPTUtils::commaSeparatedFlattenedMat(const Mat &mat) {
-	stringstream ss; 
+    std::stringstream ss;
 	int numels = mat.rows*mat.cols; 
 	int ind = 1; 
 	for (int i = 0; i < mat.rows; i++) {
@@ -92,38 +92,38 @@ string NMPTUtils::commaSeparatedFlattenedMat(const Mat &mat) {
 int NMPTUtils::getVideoCaptureFromCommandLineArgs(VideoCapture& capture, const int argc, const char** argv) {
 	int retval; 
 	if (argc < 2) {
-		cout << "Getting Default Camera " << CV_CAP_ANY << endl; 	
+        std::cout << "Getting Default Camera " << CV_CAP_ANY << std::endl;
 		capture.open(CV_CAP_ANY);		
 		retval = 2; 
 	} else {
 		if (argv[1][0] == '-') {
-			cout << argv[0] << ": A program for processing camera or video input." << endl;
-			cout << "Usage:" << endl ;
-			cout << "\t" << argv[0] << "\t\t\t: Get input from the default camera." << endl; 
-			cout << "\t" << argv[0] << "\t[number]\t\t: Get input from camera identified by number (must be less than 10)." << endl; 
-			cout << "\t" << argv[0] << "\t[filename]\t: Get input from specified video file." << endl; 
-			cout << "\t" << argv[0] << "\t--help\t\t: Print this message and quit." << endl; 
+            std::cout << argv[0] << ": A program for processing camera or video input." << std::endl;
+            std::cout << "Usage:" << std::endl ;
+            std::cout << "\t" << argv[0] << "\t\t\t: Get input from the default camera." << std::endl;
+            std::cout << "\t" << argv[0] << "\t[number]\t\t: Get input from camera identified by number (must be less than 10)." << std::endl;
+            std::cout << "\t" << argv[0] << "\t[filename]\t: Get input from specified video file." << std::endl;
+            std::cout << "\t" << argv[0] << "\t--help\t\t: Print this message and quit." << std::endl;
 			return 0; 
 		}else if (strlen(argv[1]) == 1) {
-			cout << "Getting Camera " << atoi(argv[1]) << endl; 
+            std::cout << "Getting Camera " << atoi(argv[1]) << std::endl;
 			capture.open(atoi(argv[1]));
 			retval = 2; 
 		} else {
-			cout << "Getting Movie " << argv[1] << endl; 
+            std::cout << "Getting Movie " << argv[1] << std::endl;
 			capture.open(argv[1]); 
 			retval = 1; 
 		}
 	}
 	
     if (! capture.isOpened()) {
-		cout << argv[0] << ": Failed to get input from camera or movie file." << endl;
+        std::cout << argv[0] << ": Failed to get input from camera or movie file." << std::endl;
 		return 0; 
 	}
 	return retval; 
 }
 
 double NMPTUtils::notfinite(double a) {
-	return !isfinite(a);
+    return !std::isfinite(a);
 }
 
 void NMPTUtils::distNorm(Mat &normDist, const Mat &unnormDist) {
@@ -268,7 +268,7 @@ void NMPTUtils::readMatBinary(const FileNode &tm, Mat &mat) {
 		vector<string> vs;
 		
 		FileNode tl = tm["data"];
-		//cout << tl.type() << endl; 
+        //std::cout << tl.type() << std::endl;
 		CV_Assert(tl.type() == FileNode::SEQ); 
 		vs.resize(tl.size()); 
 		for (size_t i = 0; i < tl.size(); i++) {
@@ -444,7 +444,7 @@ void NMPTUtils::joinString(const std::vector<std::string> &data, std::string &de
  //deflateParams(&c_stream, Z_BEST_COMPRESSION, Z_FILTERED);
  
  if (err) {
- cout << "Error " << err << " in deflateInit." << endl; 
+ std::cout << "Error " << err << " in deflateInit." << std::endl;
  return 0; 
  }
  
@@ -462,13 +462,13 @@ void NMPTUtils::joinString(const std::vector<std::string> &data, std::string &de
  if (err == Z_STREAM_END)
  break; 
  if (err) {
- cout << "Error " << err << " in deflate." << endl; 
+ std::cout << "Error " << err << " in deflate." << std::endl;
  return err; 
  }
  }
  
  if (err != Z_STREAM_END) {
- cout << "Error in " << err << " deflateEnd." << endl; 
+ std::cout << "Error in " << err << " deflateEnd." << std::endl;
  return err; 
  }
  dest_size = c_stream.total_out; 
@@ -489,7 +489,7 @@ void NMPTUtils::joinString(const std::vector<std::string> &data, std::string &de
  
  err = inflateInit(&d_stream);
  if(err) {
- cout << "Error " << err << " in inflateInit";
+ std::cout << "Error " << err << " in inflateInit";
  return err; 
  }
  
@@ -499,7 +499,7 @@ void NMPTUtils::joinString(const std::vector<std::string> &data, std::string &de
  err = inflate(&d_stream, Z_NO_FLUSH);
  if (err == Z_STREAM_END) break;
  if (err) {
- cout << "Error " << err << " in inflate" << endl; 
+ std::cout << "Error " << err << " in inflate" << std::endl;
  return err; 
  }
  
@@ -507,7 +507,7 @@ void NMPTUtils::joinString(const std::vector<std::string> &data, std::string &de
  
  err = inflateEnd(&d_stream);
  if (err) {
- cout << "Error " << err << " in inflate end" << endl; 
+ std::cout << "Error " << err << " in inflate end" << std::endl;
  return err; 
  }
  if (dest_size != d_stream.total_out) return d_stream.total_out; 
@@ -534,11 +534,11 @@ void NMPTUtils::rectangleRotated(Mat & image, Point center, Size size, double an
 	points.at<double>(4,0) = size.width/2.; 
 	points.at<double>(4,1) = 0 ; 
 	/*
-	 cout << "points: " << endl; 
+     std::cout << "points: " << std::endl;
 	 printMat(points); 
-	 cout << "transform: " << endl; 
+     std::cout << "transform: " << std::endl;
 	 printMat(transform) ; 
-	 cout << "points type: " << points.type() << "; transform type: " << transform.type() << endl; 
+     std::cout << "points type: " << points.type() << "; transform type: " << transform.type() << std::endl;
 	 */
 	points = points*transform.t(); 
 	
@@ -569,7 +569,7 @@ Mat NMPTUtils::RBF(const Mat &input, const Mat &labels, const Mat &weights, cons
 	int O = labels.cols; 
 	int Q = xqueries.rows; 
 	
-	if (_RBF_DEBUG) cout << "Computing RBF on " << N << " data points, " << Q << " queries." << endl; 
+    if (_RBF_DEBUG) std::cout << "Computing RBF on " << N << " data points, " << Q << " queries." << std::endl;
 	
 	Mat predictions, xdiff, wtrow;
 	double negt2inv = -1.0/(2.0*tau*tau);
@@ -582,7 +582,7 @@ Mat NMPTUtils::RBF(const Mat &input, const Mat &labels, const Mat &weights, cons
 		Mat curry = predictions.row(i); 
 		
 		if (_RBF_DEBUG) {
-			cout << "Computing RBF Val for query " ; 
+            std::cout << "Computing RBF Val for query " ;
 			printMat(currx1); 
 		}
 			
@@ -596,14 +596,14 @@ Mat NMPTUtils::RBF(const Mat &input, const Mat &labels, const Mat &weights, cons
 		}
 		
 		if (_RBF_DEBUG) {
-			//cout << "Unnormalized Weights: " ; 
+            //std::cout << "Unnormalized Weights: " ;
 			//printMat(wtrow); 
 		}
 		
 		
 		double norm = sum(wtrow)[0]; 
 		
-		//cout << "Norm is " << norm.val[0] << endl; 
+        //std::cout << "Norm is " << norm.val[0] << std::endl;
 		if (norm > 0)  {
 			wtrow *= 1.0/norm;
 		}
@@ -615,9 +615,9 @@ Mat NMPTUtils::RBF(const Mat &input, const Mat &labels, const Mat &weights, cons
 		
 		
 		if (_RBF_DEBUG) {
-			//cout << "Normalized Weights: " ; 
+            //std::cout << "Normalized Weights: " ;
 			//printMat(wtrow); 
-			cout << "Values " ; 
+            std::cout << "Values " ;
 			printMat(curry); 
 		}
 		
@@ -625,12 +625,12 @@ Mat NMPTUtils::RBF(const Mat &input, const Mat &labels, const Mat &weights, cons
 		map<double>(nreal, &notfinite); 
 		
 		if (_RBF_DEBUG) {
-			cout << "notfinite gave: " ; 
+            std::cout << "notfinite gave: " ;
 			printMat(nreal); 
 		}
 		
 		if (any<double>(nreal)) {
-			cout << "!!!!Warning! RBF Value was ill conditioned." << endl; 
+            std::cout << "!!!!Warning! RBF Value was ill conditioned." << std::endl;
 			
 			curry.setTo(0., (nreal != 0)); 
 			
@@ -639,7 +639,7 @@ Mat NMPTUtils::RBF(const Mat &input, const Mat &labels, const Mat &weights, cons
 		curry.setTo(1., curry > 1); 
 		
 		if (_RBF_DEBUG) {
-			cout << "Prediction " ; 
+            std::cout << "Prediction " ;
 			printMat(predictions.row(i)); 
 		}
 		
