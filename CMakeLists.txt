@@ -112,7 +112,7 @@ ENDIF()
 # Project library and executables
 MESSAGE("\nTargets:")
 SET(LIBRARY_NAME "NMPT")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -std=c++0x")
 
 INCLUDE_DIRECTORIES(include)
 
