@@ -1,7 +1,7 @@
 # ### NMPT ###
 # ===============================
 # 
-# Sets required variables for finding the hlrc client library:
+# Sets required variables for finding the nmtp client library:
 #
 # NMPT_FOUND
 # NMPT_INCLUDE_DIRS
