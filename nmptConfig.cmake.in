@@ -1,0 +1,28 @@
+# ### NMPT ###
+# ===============================
+# 
+# Sets required variables for finding the hlrc client library:
+#
+# NMPT_FOUND
+# NMPT_INCLUDE_DIRS
+# NMPT_LIBRARY_DIRS
+# NMPT_LIBRARIES
+# NMPT_VERSION
+# 
+# Example:
+# find_package(nmpt 0.7)
+#
+# ###############################################################################
+
+INCLUDE(FindPkgConfig)
+
+GET_FILENAME_COMPONENT(CONFIG_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+SET(NMPT_FOUND TRUE)
+SET(NMPT_INCLUDE_DIRS "${CONFIG_DIR}/../../include")
+SET(NMPT_LIBRARY_DIRS "${CONFIG_DIR}/../../lib")
+SET(NMPT_VERSION "@NMPT_VERSION@")
+SET(NMPT_LIBRARIES "${CONFIG_DIR}/../../lib/@CMAKE_SHARED_LIBRARY_PREFIX@@NMPT_LIBNAME@@CMAKE_SHARED_LIBRARY_SUFFIX@")
+
+# TODO: find dependencies here and append their include dirs to NMPT_INCLUDE_DIRS
+
