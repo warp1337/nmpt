@@ -89,7 +89,7 @@ ELSE ( GLUT_FOUND )
 ENDIF ( GLUT_FOUND )
 
 # OpenCV
-SET(OpenCV_MIN_VERSION "2.3.1")
+SET(OpenCV_MIN_VERSION "2.4.10")
 find_path(OpenCV_DIR NAMES opencv-config.cmake OpenCVConfig.cmake PATH_SUFFIXES lib/cmake lib)
 FIND_PACKAGE ( OpenCV REQUIRED COMPONENTS core contrib features2d imgproc legacy objdetect video highgui)
 IF(OpenCV_FOUND)
